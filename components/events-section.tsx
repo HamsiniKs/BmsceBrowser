@@ -76,26 +76,17 @@ export function EventsSection() {
   return (
     <section id="events" className="bg-midnight py-20 px-6 md:px-12 overflow-hidden">
       <div className="max-w-6xl mx-auto">
+
         {/* Header */}
         <div className="flex items-end justify-between mb-10">
           <div>
-            <p className="text-maroon font-medium text-sm uppercase tracking-widest mb-2">Campus Life</p>
-            <h2 className="font-serif font-black text-4xl md:text-5xl text-alabaster text-balance">
-              Upcoming Events
-            </h2>
+            <p className="text-maroon text-sm uppercase mb-2">Campus Life</p>
+            <h2 className="text-4xl text-alabaster">Upcoming Events</h2>
           </div>
-          {/* Category filter */}
+
           <div className="flex gap-2">
             {(["all", "tech", "cultural", "sports"] as const).map(cat => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`text-xs font-medium px-3 py-1.5 rounded-full border transition-all capitalize ${
-                  activeCategory === cat
-                    ? "bg-maroon border-maroon text-alabaster"
-                    : "border-lightblue/20 text-tan hover:border-lightblue/40 hover:text-alabaster"
-                }`}
-              >
+              <button key={cat} onClick={() => setActiveCategory(cat)}>
                 {cat}
               </button>
             ))}
@@ -103,61 +94,43 @@ export function EventsSection() {
         </div>
 
         <div className="flex flex-col md:flex-row gap-8 items-center">
-          {/* Orbit visualization */}
-          <div className="relative flex-shrink-0 w-[340px] h-[340px] md:w-[600px] md:h-[600px]">
-            <svg
-              viewBox="0 0 600 600"
-              className="w-full h-full"
-            >
-              {/* Orbit rings */}
-              <circle cx={cx} cy={cy} r={180} fill="none" stroke="#1a6070" strokeWidth="0.8" strokeDasharray="4 6" opacity="0.6" />
-              <circle cx={cx} cy={cy} r={250} fill="none" stroke="#1a6070" strokeWidth="0.8" strokeDasharray="4 6" opacity="0.4" />
 
-              {/* Center dot */}
-              <circle cx={cx} cy={cy} r={32} fill="#1a6070" />
-              <text x={cx} y={cy - 4} textAnchor="middle" fill="#EFE8DF" fontSize="9" fontWeight="bold">BMSIT</text>
-              <text x={cx} y={cy + 8} textAnchor="middle" fill="#96C0CE" fontSize="7">EVENTS</text>
+          {/* SVG */}
+          <div className="relative w-[600px] h-[600px]">
+            <svg viewBox="0 0 600 600" className="w-full h-full">
 
-              {events.map(event => {
+              <circle cx={cx} cy={cy} r={180} fill="none" stroke="#1a6070" />
+              <circle cx={cx} cy={cy} r={250} fill="none" stroke="#1a6070" />
+
+              {filtered.map(event => {
                 const rad = (event.angle * Math.PI) / 180
-                const ex = cx + event.radius * Math.cos(rad)
-                const ey = cy + event.radius * Math.sin(rad)
-                const cfg = categoryConfig[event.category]
-                const isVisible = activeCategory === "all" || activeCategory === event.category
+
+                // ✅ FIXED (rounded values)
+                const ex = Number((cx + event.radius * Math.cos(rad)).toFixed(2))
+                const ey = Number((cy + event.radius * Math.sin(rad)).toFixed(2))
+
                 const isHovered = hoveredId === event.id
+                const cfg = categoryConfig[event.category]
 
                 return (
                   <g
                     key={event.id}
-                    style={{ cursor: "pointer", opacity: isVisible ? 1 : 0.15, transition: "opacity 0.3s" }}
                     onClick={() => setSelectedEvent(event)}
                     onMouseEnter={() => setHoveredId(event.id)}
                     onMouseLeave={() => setHoveredId(null)}
                   >
-                    {/* Glow */}
-                    {isHovered && (
-                      <circle cx={ex} cy={ey} r={28} fill={cfg.color} opacity={0.15} />
-                    )}
-                    {/* Node */}
                     <circle
-                      cx={ex} cy={ey} r={isHovered ? 20 : 16}
+                      cx={ex}
+                      cy={ey}
+                      r={isHovered ? 20 : 16}
                       fill={cfg.color}
-                      style={{ transition: "r 0.2s" }}
                     />
-                    {/* Label */}
-                    <text
-                      x={ex} y={ey + 30}
-                      textAnchor="middle" fill="#EFE8DF" fontSize="8"
-                      className="pointer-events-none"
-                    >
+
+                    <text x={ex} y={ey + 30} textAnchor="middle">
                       {event.title.split(" ")[0]}
                     </text>
-                    {/* Date badge */}
-                    <text
-                      x={ex} y={ey + 4}
-                      textAnchor="middle" fill="#0F414A" fontSize="7" fontWeight="bold"
-                      className="pointer-events-none"
-                    >
+
+                    <text x={ex} y={ey + 5} textAnchor="middle">
                       {event.date}
                     </text>
                   </g>
@@ -166,70 +139,17 @@ export function EventsSection() {
             </svg>
           </div>
 
-          {/* Event detail panel */}
-          {selectedEvent ? (
-            <div className="flex-1 bg-midnight-light/30 rounded-2xl p-6 border border-lightblue/10 relative">
-              <button
-                onClick={() => setSelectedEvent(null)}
-                className="absolute top-4 right-4 text-tan/60 hover:text-alabaster"
-              >
-                <X className="w-4 h-4" />
-              </button>
-              <span
-                className={`inline-block text-xs font-medium px-2.5 py-0.5 rounded-full mb-4 capitalize ${categoryConfig[selectedEvent.category].textBg} ${categoryConfig[selectedEvent.category].textColor}`}
-              >
-                {selectedEvent.category}
-              </span>
-              <h3 className="font-serif font-black text-2xl text-alabaster mb-2">{selectedEvent.title}</h3>
-              <p className="text-tan/80 text-sm leading-relaxed mb-6">{selectedEvent.description}</p>
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-lightblue" />
-                  <span className="text-tan text-sm">{selectedEvent.date}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-lightblue" />
-                  <span className="text-tan text-sm">{selectedEvent.time}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-lightblue" />
-                  <span className="text-tan text-sm">{selectedEvent.venue}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4 text-lightblue" />
-                  <span className="text-tan text-sm">{selectedEvent.participants} expected</span>
-                </div>
+          {/* Details */}
+          <div>
+            {selectedEvent && (
+              <div>
+                <h3>{selectedEvent.title}</h3>
+                <p>{selectedEvent.description}</p>
+                <p>{selectedEvent.date} | {selectedEvent.time}</p>
               </div>
-              <Button className="w-full bg-maroon hover:bg-maroon-light text-alabaster">
-                Register Now
-              </Button>
-            </div>
-          ) : (
-            <div className="flex-1 space-y-3">
-              <p className="text-tan/60 text-sm mb-4">Click any event node to view details</p>
-              {events.slice(0, 5).map(event => {
-                const cfg = categoryConfig[event.category]
-                const isVisible = activeCategory === "all" || activeCategory === event.category
-                return (
-                  <button
-                    key={event.id}
-                    onClick={() => setSelectedEvent(event)}
-                    className={`w-full text-left rounded-xl p-3 border transition-all ${
-                      isVisible ? `${cfg.border} bg-midnight-light/20 hover:bg-midnight-light/40` : "border-midnight-light/20 opacity-40"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: cfg.color }} />
-                        <span className="text-alabaster text-sm font-medium">{event.title}</span>
-                      </div>
-                      <span className="text-tan/60 text-xs">{event.date}</span>
-                    </div>
-                  </button>
-                )
-              })}
-            </div>
-          )}
+            )}
+          </div>
+
         </div>
       </div>
     </section>
