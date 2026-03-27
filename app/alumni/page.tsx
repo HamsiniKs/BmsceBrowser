@@ -1,6 +1,6 @@
-import { Navbar } from "@/components/navbar"
-import { AlumniShowcase } from "@/components/alumni-showcase"
-import { Footer } from "@/components/footer"
+import { Navbar } from "@/components/navbar";
+import { AlumniShowcase } from "@/components/alumni-showcase";
+import { Footer } from "@/components/footer";
 
 export default function AlumniPage() {
   return (
@@ -11,5 +11,5 @@ export default function AlumniPage() {
       </div>
       <Footer />
     </main>
-  )
+  );
 }
