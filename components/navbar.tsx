@@ -2,23 +2,26 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 
 const navLinks = [
-  { label: "Home", href: "#" },
-  { label: "Admissions", href: "#admissions" },
-  { label: "Placements", href: "#placements" },
-  { label: "Departments", href: "#departments" },
-  { label: "Events", href: "#events" },
+  { label: "Home", href: "/" },
+  { label: "Admissions", href: "/#admissions" },
+  { label: "Placements", href: "/#placements" },
+  { label: "Departments", href: "/#departments" },
+  { label: "Events", href: "/#events" },
   { label: "Clubs", href: "/clubs" },
-  { label: "Seat Finder", href: "#seat-finder" },
-  { label: "Alumni", href: "#alumni" },
-  { label: "Utilities", href: "#utilities" },
+  { label: "Seat Finder", href: "/#seat-finder" },
+  { label: "Alumni", href: "/#alumni" },
+  { label: "Utilities", href: "/#utilities" },
 ]
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
+  const isHomePage = pathname === "/"
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,7 +36,7 @@ export function Navbar() {
       {/* Fixed Navbar - appears after scrolling */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
+          isScrolled || !isHomePage
             ? "bg-midnight/95 backdrop-blur-md shadow-lg translate-y-0"
             : "bg-transparent -translate-y-full"
         }`}
@@ -41,7 +44,7 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <Link href="#" className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
                 <span className="font-serif font-black text-maroon text-sm leading-none">B</span>
               </div>

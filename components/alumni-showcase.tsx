@@ -10,7 +10,6 @@ const alumni = [
     batch: "CSE 2018",
     current: "Senior Engineer, Google",
     avatar: "PM",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/b132df21-3c95-4848-a2db-bf640f855943-removebg-preview-ThxMN2H2Q5mJKkn1OW9ZpZMkZkRmbN.png",
     journey: [
       { role: "B.E. CSE", company: "BMSIT", duration: "2014–18", type: "education" },
       { role: "SWE Intern", company: "Amazon", duration: "Summer 2017", type: "internship" },
@@ -26,7 +25,6 @@ const alumni = [
     batch: "ECE 2016",
     current: "Co-founder, TechVenture",
     avatar: "AS",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/66fc94bd-a07f-4db3-bfe5-9d416dad2d11-removebg-preview-zgMaylWOgD9aIZbCqbXYmJIvF4LfN2.png",
     journey: [
       { role: "B.E. ECE", company: "BMSIT", duration: "2012–16", type: "education" },
       { role: "Research Intern", company: "ISRO", duration: "Summer 2015", type: "internship" },
@@ -42,7 +40,6 @@ const alumni = [
     batch: "ISE 2019",
     current: "ML Engineer, Microsoft",
     avatar: "SP",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/e86bb9b6-f693-4e80-8dd7-bd61d060c88a-removebg-preview-RzaG89wKb9WA6aytC35VKrEg8YmDVM.png",
     journey: [
       { role: "B.E. ISE", company: "BMSIT", duration: "2015–19", type: "education" },
       { role: "Data Science Intern", company: "Swiggy", duration: "Summer 2018", type: "internship" },
@@ -58,7 +55,6 @@ const alumni = [
     batch: "ME 2017",
     current: "Design Engineer, Tesla",
     avatar: "RG",
-    image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/2c2d229f-e9e7-4812-bcf9-1bb3e661891b-removebg-preview-go3I2T2pTsXfumOlhBiO3ACBG9rMBL.png",
     journey: [
       { role: "B.E. Mechanical", company: "BMSIT", duration: "2013–17", type: "education" },
       { role: "Design Intern", company: "Tata Motors", duration: "Summer 2016", type: "internship" },
@@ -100,28 +96,24 @@ export function AlumniShowcase() {
             <button
               key={a.id}
               onClick={() => { setSelectedId(a.id); setTimelineOffset(0) }}
-              className={`rounded-2xl text-left border transition-all duration-200 overflow-hidden flex flex-col ${
+              className={`rounded-2xl p-4 text-left border transition-all duration-200 ${
                 selectedId === a.id
                   ? "bg-maroon border-maroon"
                   : "bg-midnight-light/20 border-lightblue/10 hover:border-lightblue/30 hover:bg-midnight-light/40"
               }`}
             >
-              {/* Image container - takes up most of the card */}
-              <div className="relative w-full aspect-[3/4] overflow-hidden">
-                <img
-                  src={a.image}
-                  alt={a.name}
-                  className="w-full h-full object-cover object-top"
-                />
+              <div
+                className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm mb-3 ${
+                  selectedId === a.id ? "bg-alabaster text-maroon" : "bg-lightblue/20 text-lightblue"
+                }`}
+              >
+                {a.avatar}
               </div>
-              {/* Text info at bottom */}
-              <div className="p-3">
-                <p className={`font-serif font-bold text-base leading-tight ${selectedId === a.id ? "text-alabaster" : "text-alabaster/80"}`}>
-                  {a.name}
-                </p>
-                <p className={`text-xs mt-0.5 ${selectedId === a.id ? "text-tan" : "text-tan/60"}`}>{a.batch}</p>
-                <p className={`text-xs mt-1 leading-tight ${selectedId === a.id ? "text-tan/90" : "text-tan/50"}`}>{a.current}</p>
-              </div>
+              <p className={`font-serif font-bold text-base leading-tight ${selectedId === a.id ? "text-alabaster" : "text-alabaster/80"}`}>
+                {a.name}
+              </p>
+              <p className={`text-xs mt-0.5 ${selectedId === a.id ? "text-tan" : "text-tan/60"}`}>{a.batch}</p>
+              <p className={`text-xs mt-1 leading-tight ${selectedId === a.id ? "text-tan/90" : "text-tan/50"}`}>{a.current}</p>
             </button>
           ))}
         </div>

@@ -269,7 +269,7 @@ export function DepartmentExplorer() {
   }
 
   return (
-    <section id="departments" className="bg-alabaster py-20">
+    <section id="departments" className="bg-alabaster py-20" suppressHydrationWarning>
       {/* Section Header */}
       <div className="max-w-6xl mx-auto px-6 md:px-12 mb-10">
         <div className="flex items-end justify-between">

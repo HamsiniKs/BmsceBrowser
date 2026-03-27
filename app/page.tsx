@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Navbar } from "@/components/navbar"
 import { HeroSection } from "@/components/hero-section"
+import { AboutSection } from "@/components/about-section"
 import { BentoGrid } from "@/components/bento-grid"
 import { AdmissionsSection } from "@/components/admissions-section"
 import { PlacementsDashboard } from "@/components/placements-dashboard"
@@ -16,6 +17,7 @@ export default function Home() {
     <main>
       <Navbar />
       <HeroSection />
+      <AboutSection />
       <BentoGrid />
       <AdmissionsSection />
       <PlacementsDashboard />
