@@ -26,7 +26,25 @@ export function HeroSection() {
 
       {/* Navigation Ribbon */}
       <div className="relative z-20">
-        <Navbar variant="transparent" />
+        {mounted ? (
+          <Navbar variant="transparent" />
+        ) : (
+          <header className="sticky top-0 z-50 w-full bg-black/20 backdrop-blur-md">
+            <div className="max-w-7xl mx-auto px-4 md:px-8">
+              <div className="flex items-center justify-between h-16">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center">
+                    <span className="font-serif font-black text-[#8B1212] text-lg leading-none">S</span>
+                  </div>
+                  <div>
+                    <p className="text-white font-bold text-sm leading-none">Smart Campus</p>
+                    <p className="text-white/70 text-xs leading-none mt-0.5">Platform</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </header>
+        )}
       </div>
 
       {/* Hero Content - Centered */}
