@@ -1,10 +1,9 @@
 "use client"
 
-import { useState, useRef, useCallback, useEffect } from "react"
+import { useState, useRef, useCallback } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence, useMotionValue, useTransform, PanInfo } from "framer-motion"
-import { X, Heart, ChevronUp, Users, Star, Home } from "lucide-react"
-import Link from "next/link"
+import { X, Heart, ChevronUp, Users, Filter, Star, ArrowLeft } from "lucide-react"
 import { CLUBS, Club, Category } from "./club-data"
 import { ClubDetailModal } from "./club-detail-modal"
 import { SelectedClubsPanel } from "./selected-clubs-panel"
@@ -40,11 +39,6 @@ export function ClubExplorer() {
   const [selectedClub, setSelectedClub] = useState<Club | null>(null)
   const [swipeDir, setSwipeDir] = useState<SwipeDirection>(null)
   const [showSelected, setShowSelected] = useState(false)
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const filtered = CLUBS.filter(c => !activeFilter || c.category === activeFilter)
   const queue = filtered.filter(c => !viewedIds.has(c.id))
@@ -74,26 +68,11 @@ export function ClubExplorer() {
       {/* Header */}
       <header className="sticky top-0 z-40 bg-alabaster border-b border-tan/60">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            {mounted ? (
-              <Link
-                href="/"
-                className="flex items-center justify-center w-10 h-10 rounded-full border border-tan hover:bg-tan/30 hover:border-midnight transition-colors"
-                aria-label="Go to Home"
-              >
-                <Home size={18} className="text-midnight" />
-              </Link>
-            ) : (
-              <div className="w-10 h-10 rounded-full border border-tan flex items-center justify-center">
-                <Home size={18} className="text-midnight" />
-              </div>
-            )}
-            <div>
-              <h1 className="font-serif text-2xl md:text-3xl font-bold text-midnight leading-tight text-balance">
-                Discover Clubs
-              </h1>
-              <p className="text-sm text-midnight/60 mt-0.5">Swipe to find your perfect club</p>
-            </div>
+          <div>
+            <h1 className="font-serif text-2xl md:text-3xl font-bold text-midnight leading-tight text-balance">
+              Discover Clubs
+            </h1>
+            <p className="text-sm text-midnight/60 mt-0.5">Swipe to find your perfect club</p>
           </div>
           <button
             onClick={() => setShowSelected(true)}

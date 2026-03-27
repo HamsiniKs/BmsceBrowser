@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Zap, Wind, Volume2, Sun, Clock, Star, Search } from "lucide-react"
+import { Zap, Wind, Volume2, Sun, Clock, Star, Search, User, Lock, CheckCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
@@ -69,6 +69,39 @@ export function SeatFinder() {
   const [showHeatmap, setShowHeatmap] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [hoveredSeat, setHoveredSeat] = useState<Seat | null>(null)
+  
+  // USN verification state
+  const [usn, setUsn] = useState("")
+  const [usnError, setUsnError] = useState("")
+  const [isVerified, setIsVerified] = useState(false)
+  const [isVerifying, setIsVerifying] = useState(false)
+
+  // USN format: 1BM22CS001 (or similar patterns like 1BM21IS045)
+  const validateUsn = (value: string) => {
+    const usnPattern = /^1BM\d{2}[A-Z]{2,4}\d{3}$/i
+    return usnPattern.test(value)
+  }
+
+  const handleUsnSubmit = () => {
+    if (!usn.trim()) {
+      setUsnError("Please enter your USN")
+      return
+    }
+    
+    if (!validateUsn(usn.trim())) {
+      setUsnError("Invalid USN format. Example: 1BM22CS001")
+      return
+    }
+    
+    setUsnError("")
+    setIsVerifying(true)
+    
+    // Simulate verification
+    setTimeout(() => {
+      setIsVerifying(false)
+      setIsVerified(true)
+    }, 1000)
+  }
 
   const toggleSeat = (seat: Seat) => {
     if (seat.status === "occupied" || seat.status === "reserved") return
@@ -126,16 +159,99 @@ export function SeatFinder() {
   const available = seats.filter(s => s.status === "available").length
   const occupied = seats.filter(s => s.status === "occupied").length
 
+  // USN Verification Screen
+  if (!isVerified) {
+    return (
+      <section id="seat-finder" className="bg-alabaster py-20 px-6 md:px-12">
+        <div className="max-w-md mx-auto">
+          {/* Header */}
+          <div className="mb-10 text-center">
+            <p className="text-maroon font-medium text-sm uppercase tracking-widest mb-2">Smart Campus</p>
+            <h2 className="font-serif font-black text-4xl md:text-5xl text-midnight text-balance">
+              Seat Finder
+            </h2>
+            <p className="text-midnight/50 text-sm mt-2">Library — Block A, Level 2</p>
+          </div>
+
+          {/* USN Verification Card */}
+          <div className="bg-midnight rounded-2xl p-8 shadow-xl">
+            <div className="flex items-center justify-center mb-6">
+              <div className="w-16 h-16 rounded-full bg-lightblue/20 flex items-center justify-center">
+                <Lock className="w-8 h-8 text-lightblue" />
+              </div>
+            </div>
+            
+            <h3 className="text-white font-bold text-xl text-center mb-2">Student Verification</h3>
+            <p className="text-tan/70 text-sm text-center mb-6">
+              Enter your University Serial Number (USN) to access the seat finder.
+            </p>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-tan text-xs font-medium mb-2">USN</label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-tan/50" />
+                  <Input
+                    placeholder="e.g., 1BM22CS001"
+                    value={usn}
+                    onChange={(e) => {
+                      setUsn(e.target.value.toUpperCase())
+                      setUsnError("")
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") handleUsnSubmit()
+                    }}
+                    className="pl-10 bg-midnight-light/50 border-tan/30 text-white placeholder:text-tan/40 focus:border-lightblue uppercase"
+                  />
+                </div>
+                {usnError && (
+                  <p className="text-maroon-light text-xs mt-2">{usnError}</p>
+                )}
+              </div>
+              
+              <Button
+                onClick={handleUsnSubmit}
+                disabled={isVerifying}
+                className="w-full bg-maroon hover:bg-maroon/90 text-white font-semibold h-12"
+              >
+                {isVerifying ? (
+                  <span className="flex items-center gap-2">
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Verifying...
+                  </span>
+                ) : (
+                  "Verify & Continue"
+                )}
+              </Button>
+            </div>
+            
+            <p className="text-tan/50 text-xs text-center mt-6">
+              Only BMSIT&M students can access the seat finder. Your USN helps us personalize your experience.
+            </p>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section id="seat-finder" className="bg-alabaster py-20 px-6 md:px-12">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-10">
-          <p className="text-maroon font-medium text-sm uppercase tracking-widest mb-2">Smart Campus</p>
-          <h2 className="font-serif font-black text-4xl md:text-5xl text-midnight text-balance">
-            Seat Finder
-          </h2>
-          <p className="text-midnight/50 text-sm mt-2">Library — Block A, Level 2</p>
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <p className="text-maroon font-medium text-sm uppercase tracking-widest mb-2">Smart Campus</p>
+              <h2 className="font-serif font-black text-4xl md:text-5xl text-midnight text-balance">
+                Seat Finder
+              </h2>
+              <p className="text-midnight/50 text-sm mt-2">Library — Block A, Level 2</p>
+            </div>
+            <div className="flex items-center gap-2 bg-midnight/10 px-4 py-2 rounded-full">
+              <CheckCircle className="w-4 h-4 text-green-600" />
+              <span className="text-midnight text-sm font-medium">{usn}</span>
+            </div>
+          </div>
         </div>
 
         {/* Live status bar */}

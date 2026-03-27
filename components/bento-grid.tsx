@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import {
   GraduationCap, BarChart3, Calendar, BookOpen,
   Users, Library, Home, Bus, Bell, Cpu,
@@ -17,6 +18,7 @@ const tiles = [
     bg: "bg-maroon",
     textColor: "text-alabaster",
     accent: "text-tan",
+    href: "#admissions",
   },
   {
     id: "placements",
@@ -27,6 +29,7 @@ const tiles = [
     bg: "bg-midnight-light",
     textColor: "text-alabaster",
     accent: "text-lightblue",
+    href: "#placements",
   },
   {
     id: "events",
@@ -37,6 +40,7 @@ const tiles = [
     bg: "bg-lightblue",
     textColor: "text-midnight",
     accent: "text-midnight-light",
+    href: "#events",
   },
   {
     id: "seat-finder",
@@ -47,6 +51,7 @@ const tiles = [
     bg: "bg-tan",
     textColor: "text-midnight",
     accent: "text-maroon",
+    href: "#seat-finder",
   },
   {
     id: "courses",
@@ -57,6 +62,7 @@ const tiles = [
     bg: "bg-midnight",
     textColor: "text-alabaster",
     accent: "text-lightblue",
+    href: "#departments",
   },
   {
     id: "clubs",
@@ -67,6 +73,7 @@ const tiles = [
     bg: "bg-alabaster",
     textColor: "text-midnight",
     accent: "text-maroon",
+    href: "/clubs",
   },
   {
     id: "library",
@@ -77,6 +84,7 @@ const tiles = [
     bg: "bg-midnight",
     textColor: "text-alabaster",
     accent: "text-tan",
+    href: "#seat-finder",
   },
   {
     id: "hostel",
@@ -87,6 +95,7 @@ const tiles = [
     bg: "bg-lightblue",
     textColor: "text-midnight",
     accent: "text-midnight-light",
+    href: "#utilities",
   },
   {
     id: "transport",
@@ -97,6 +106,7 @@ const tiles = [
     bg: "bg-tan",
     textColor: "text-midnight",
     accent: "text-maroon",
+    href: "#utilities",
   },
   {
     id: "announcements",
@@ -107,6 +117,7 @@ const tiles = [
     bg: "bg-maroon",
     textColor: "text-alabaster",
     accent: "text-tan",
+    href: "#events",
   },
 ]
 
@@ -186,7 +197,8 @@ function BentoTile({
   const isHovered = hovered === tile.id
 
   return (
-    <div
+    <Link
+      href={tile.href}
       className={`${className} ${tile.bg} rounded-2xl p-5 flex flex-col justify-between cursor-pointer select-none overflow-hidden relative group transition-all duration-300 ease-out ${
         isHovered ? "scale-[1.03] shadow-2xl z-10" : "scale-100 shadow-md"
       }`}
@@ -224,6 +236,6 @@ function BentoTile({
           <span className="text-xs">→</span>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
