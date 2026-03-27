@@ -99,7 +99,7 @@ export function StudentUtilities() {
             <div className="space-y-2">
               {timetable.map((item, i) => (
                 <div
-                  key={i}
+                  key={`timetable-${item.time}-${i}`}
                   className={`flex items-center gap-4 rounded-xl px-4 py-3 border-l-4 ${typeColor(item.type)}`}
                 >
                   <span className="font-mono text-sm font-bold w-12 flex-shrink-0">{item.time}</span>
@@ -176,7 +176,7 @@ export function StudentUtilities() {
               if (dismissedInsights.includes(i)) return null
               return (
                 <div
-                  key={i}
+                  key={`insight-${i}`}
                   className="bg-midnight rounded-xl px-4 py-3 flex items-start gap-3 border border-lightblue/10 group"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-lightblue flex-shrink-0 mt-0.5" />

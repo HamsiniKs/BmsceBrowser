@@ -269,7 +269,7 @@ export function AdmissionsSection() {
               { date: "May 5", event: "Document Verification", done: false },
               { date: "Jun 1", event: "Classes Begin", done: false },
             ].map((item, i, arr) => (
-              <div key={i} className="flex items-start flex-shrink-0">
+              <div key={`timeline-${i}`} className="flex items-start flex-shrink-0">
                 <div className="flex flex-col items-center">
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${

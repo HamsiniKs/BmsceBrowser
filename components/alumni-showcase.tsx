@@ -146,7 +146,7 @@ export function AlumniShowcase() {
               style={{ transform: `translateX(-${timelineOffset * (100 / selected.journey.length)}%)` }}
             >
               {selected.journey.map((node, i, arr) => (
-                <div key={i} className="flex items-center flex-shrink-0" style={{ width: `${100 / Math.min(arr.length, 5)}%` }}>
+                <div key={`${selected.id}-journey-${i}`} className="flex items-center flex-shrink-0" style={{ width: `${100 / Math.min(arr.length, 5)}%` }}>
                   <div className="flex flex-col items-center flex-1">
                     {/* Node */}
                     <div

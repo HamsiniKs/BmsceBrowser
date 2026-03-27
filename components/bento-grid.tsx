@@ -160,7 +160,7 @@ function PlacementsPreview() {
     <div className="flex items-end gap-1.5 mt-3 h-10">
       {bars.map((h, i) => (
         <div
-          key={i}
+          key={`bar-${i}`}
           className="flex-1 bg-alabaster/30 rounded-sm"
           style={{ height: `${h}%` }}
         />

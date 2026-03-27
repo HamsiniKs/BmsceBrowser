@@ -1,8 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ArrowRight, Menu } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Navbar } from "@/components/navbar"
 
 export function HeroSection() {
   const [mounted, setMounted] = useState(false)
@@ -23,42 +24,10 @@ export function HeroSection() {
       {/* Dark overlay for text readability */}
       <div className="absolute inset-0 bg-black/20 pointer-events-none" />
 
-      {/* Nav */}
-      <header className="relative z-20 flex items-center justify-between px-6 md:px-12 py-6">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center">
-            <span className="font-serif font-black text-[#8B1212] text-lg leading-none">S</span>
-          </div>
-          <div>
-            <p className="text-white font-bold text-sm leading-none">Smart Campus</p>
-            <p className="text-white/70 text-xs leading-none mt-0.5">Platform</p>
-          </div>
-        </div>
-
-        <nav className="hidden md:flex items-center gap-8">
-          {["Home", "Features", "Faculty", "Alumni"].map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="text-white/80 text-sm font-medium hover:text-white transition-colors"
-            >
-              {item}
-            </a>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-3">
-          <Button
-            size="sm"
-            className="bg-white text-[#8B1212] hover:bg-white/90 font-semibold border-none"
-          >
-            Sign In
-          </Button>
-          <button className="md:hidden text-white">
-            <Menu className="w-5 h-5" />
-          </button>
-        </div>
-      </header>
+      {/* Navigation Ribbon */}
+      <div className="relative z-20">
+        <Navbar variant="transparent" />
+      </div>
 
       {/* Hero Content - Centered */}
       <div className="relative z-10 flex-1 flex items-center justify-center px-6 md:px-12 py-8">
